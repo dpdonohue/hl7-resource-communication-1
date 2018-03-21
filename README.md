@@ -175,3 +175,9 @@ This package conforms to version `FHIR 1.6.0 - STU3 Ballot`, as per the Touchsto
 #### Licensing   
 
 ![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)
+
+
+--------------------------------------------  
+#### Acknowledgements     
+
+Many thanks to Dr. David Donohue for sponsoring this package.  
