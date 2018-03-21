@@ -1,0 +1,43 @@
+
+<template name="communicationsTablePage">
+  <article id="communicationsTablePage" style="{{getPageHeight}}">
+    {{> recordHeader url="communications" spreadsheet=false  imageGrid=false}}
+    <div class="horizontally-padded page" style={{getOpacity}}>
+      <input id="communicationSearchInput" type="text" class="glass fullwidth form-control" placeholder="search..." value="{{getRecordSearchFilter}}" />
+
+      <table id="communicationsTable" class="table table-striped tablesorter">
+        <thead>
+          <tr class="communicationHeaderRow">
+            <th>
+              <i class="fa fa-signal"></i>
+            </th>
+            <th class="created">Created At</th>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>
+              <i class="fa fa-times"></i>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each communicationsList}}
+            <tr class="communicationRow {{isGrayedOut}}">
+              <td class="checkbox">
+                <i class="fa {{checkedIcon}}"></i>
+              </td>
+              <!-- <td class="barcode">{{_id}}</td> -->
+              <td class="created">{{ getCreatedAt }}</td>
+              <td>{{ getName }}</td>
+              <td>{{ gender }}</td>
+              <td class="delete">
+                <i class="fa fa-times"></i>
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+
+    </div>
+    {{> recordFooter }}
+  </article>
+</template>
