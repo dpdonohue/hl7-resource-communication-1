@@ -1,5 +1,5 @@
 Package.describe({
-  name: 'dpdonohue:hl7-resource-communication',
+  name: 'clinical:hl7-resource-communication',
   version: '0.0.1',
   summary: 'HL7 FHIR Resource - Communication',
   git: 'https://github.com/dpdonohue/hl7-resource-communication',
@@ -31,6 +31,7 @@ Package.onUse(function (api) {
 
   api.addFiles('lib/Communications.js');
   api.addFiles('server/rest.js', 'server');
+  api.addFiles('server/meteor.methods.js', 'server');
   api.addFiles('server/hooks.communications.js', 'server');
 
   if(Package['clinical:fhir-vault-server']){
@@ -38,9 +39,9 @@ Package.onUse(function (api) {
   }
   
   // these exports are put into the global context (but only on the server)
-  api.export('Communication', 'server');
-  api.export('Communications', 'server');
-  api.export('CommunicationSchema', 'server');
+  api.export('Communication');
+  api.export('Communications');
+  api.export('CommunicationSchema');
 
   api.mainModule('index.jsx', 'client');
 });

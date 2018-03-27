@@ -1,16 +1,14 @@
 import { CardText, CardTitle } from 'material-ui/Card';
 import { Tab, Tabs } from 'material-ui/Tabs';
 
-import Glass from './Glass';
-import GlassCard from './GlassCard';
+import { Glass, GlassCard, FullPageCanvas } from 'meteor/clinical:glass-ui';
+
 import CommunicationDetail from './CommunicationDetail';
 import CommunicationTable from './CommunicationTable';
 import React from 'react';
 import { ReactMeteorData } from 'meteor/react-meteor-data';
 import ReactMixin from 'react-mixin';
-import { FullPageCanvas } from './FullPageCanvas';
 
-// import { Communications } from '../lib/Communications';
 import { Session } from 'meteor/session';
 
 

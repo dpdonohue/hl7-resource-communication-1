@@ -1,16 +1,13 @@
-import { CardActions, CardText } from 'material-ui/Card';
 import { get, has, set } from 'lodash';
-// import { insertCommunication, removeCommunicationById, updateCommunication } from '/imports/ui/workflows/communications/methods';
-// import { insertCommunication, removeCommunicationById, updateCommunication } from 'meteor/dpdonohue:hl7-resource-communication';
-import { insertCommunication, removeCommunicationById, updateCommunication } from 'meteor/dpdonohue:hl7-resource-communication';
 
+import { insertCommunication, removeCommunicationById, updateCommunication } from '../lib/methods';
 
 import { Bert } from 'meteor/themeteorchef:bert';
-import RaisedButton from 'material-ui/RaisedButton';
 import React from 'react';
 import { ReactMeteorData } from 'meteor/react-meteor-data';
 import ReactMixin from 'react-mixin';
-import TextField from 'material-ui/TextField';
+import { CardActions, CardText, Paper, TextField, RaisedButton } from 'material-ui';
+import { Grid, Row, Col, Table } from 'react-bootstrap';
 
 let defaultCommunication = {
   "resourceType" : "Communication",
@@ -80,55 +77,101 @@ export default class CommunicationDetail extends React.Component {
     return (
       <div id={this.props.id} className="communicationDetail">
         <CardText>
-          <TextField
-            id='nameInput'
-            ref='name'
-            name='name'
-            floatingLabelText='name'
-            value={this.data.communication.name[0] ? this.data.communication.name[0].text : ''}
-            onChange={ this.changeState.bind(this, 'name')}
-            fullWidth
-            /><br/>
-          <TextField
-            id='genderInput'
-            ref='gender'
-            name='gender'
-            floatingLabelText='gender'
-            value={this.data.communication.gender}
-            onChange={ this.changeState.bind(this, 'gender')}
-            fullWidth
-            /><br/>
-          <TextField
-            id='birthdateInput'
-            ref='birthdate'
-            name='birthdate'
-            floatingLabelText='birthdate'
-            value={this.data.communication.birthDate ? this.data.communication.birthDate : ''}
-            onChange={ this.changeState.bind(this, 'birthDate')}
-            fullWidth
-            /><br/>
-          <TextField
-            id='photoInput'
-            ref='photo'
-            name='photo'
-            floatingLabelText='photo'
-            value={ (this.data.communication.photo && this.data.communication.photo[0]) ? this.data.communication.photo[0].url : ''}
-            onChange={ this.changeState.bind(this, 'photo')}
-            floatingLabelFixed={false}
-            fullWidth
-            /><br/>
-          <TextField
-            id='mrnInput'
-            ref='mrn'
-            name='mrn'
-            floatingLabelText='medical record number'
-            value={this.data.communication.identifier ? this.data.communication.identifier[0].value : ''}
-            onChange={ this.changeState.bind(this, 'mrn')}
-            fullWidth
-            /><br/>
+          <Grid>
+            <Row style={{paddingBottom: '20px', paddingTop: '40px'}}>
+              <Col md={2}>
+                <TextField
+                  id='categoryInput'
+                  name='category'
+                  floatingLabelText='category'
+                  value={ get(this, 'data.communication.category[0].text') }
+                  onChange={ this.changeState.bind(this, 'category')}
+                  fullWidth
+                  /><br/>
+              </Col>
+              <Col md={6}>
+                <TextField
+                  id='identifierInput'
+                  name='identifier'
+                  floatingLabelText='identifier'
+                  defaultValue={ get(this, 'data.communication.identifier[0].url') }
+                  onChange={ this.changeState.bind(this, 'photo')}
+                  floatingLabelFixed={false}
+                  fullWidth
+                  /><br/>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={4}>
+                <Paper zDepth={2} style={{padding: '20px', marginBottom: '20px'}}>
+                  <TextField
+                    id='subjectInput'
+                    name='subject'
+                    floatingLabelText='subject'
+                    defaultValue={ get(this, 'data.communication.subject.display', '') }
+                    onChange={ this.changeState.bind(this, 'name')}
+                    fullWidth
+                    /><br/>
+                  <TextField
+                    id='sentInput'
+                    name='sent'
+                    floatingLabelText='sent'
+                    defaultValue={ moment(get(this, 'data.communication.sent')).format('YYYY-MM-DD hh:mm:ss') }
+                    onChange={ this.changeState.bind(this, 'sent')}
+                    fullWidth
+                    /><br/>
+                </Paper>
+              </Col>
+              <Col md={4}>
+              <Paper zDepth={2} style={{padding: '20px', marginBottom: '20px'}}>
+                <TextField
+                  id='definitionInput'
+                  name='definition'
+                  floatingLabelText='definition'
+                  value={ get(this, 'data.communication.definition[0].text') }
+                  onChange={ this.changeState.bind(this, 'definition')}
+                  fullWidth
+                  /><br/>
+                <TextField
+                  id='payloadInput'
+                  name='payload'
+                  floatingLabelText='payload'
+                  defaultValue={ get(this, 'data.communication.payload[0].contentString') }
+                  onChange={ this.changeState.bind(this, 'payload')}
+                  fullWidth
+                  /><br/>
+                </Paper>
+              
+              </Col>
+              <Col md={4}>
+                <Paper zDepth={2} style={{padding: '20px', marginBottom: '20px'}}>
+                  <TextField
+                    id='recipientInput'
+                    name='recipient'
+                    floatingLabelText='recipient'
+                    onChange={ this.changeState.bind(this, 'recipient')}
+                    defaultValue={ get(this, 'data.communication.recipient.display', '') }
+                    fullWidth
+                    /><br/>
+                  <TextField
+                    id='receivedInput'
+                    name='received'
+                    floatingLabelText='received'
+                    defaultValue={ moment(get(this, 'data.communication.received')).format('YYYY-MM-DD hh:mm:ss') }
+                    onChange={ this.changeState.bind(this, 'received')}
+                    fullWidth
+                    /><br/>
+                </Paper>
+                { this.determineButtons(this.data.communicationId) }  
+              </Col>
+            </Row>
+          </Grid>
+
+
+
         </CardText>
         <CardActions>
-          { this.determineButtons(this.data.communicationId) }
+          
         </CardActions>
       </div>
     );
@@ -143,7 +186,7 @@ export default class CommunicationDetail extends React.Component {
       );
     } else {
       return(
-        <RaisedButton id='saveCommunicationButton'  className='saveCommunicationButton' label="Save" primary={true} onClick={this.handleSaveButton.bind(this)} />
+          <RaisedButton id='saveCommunicationButton'  className='saveCommunicationButton' label="Save" primary={true} onClick={this.handleSaveButton.bind(this)} />
       );
     }
   }
@@ -168,19 +211,25 @@ export default class CommunicationDetail extends React.Component {
     }
 
     switch (field) {
-      case "name":
+      case "subject":
         communicationUpdate.name[0].text = value;
         break;
-      case "gender":
+      case "recipient":
         communicationUpdate.gender = value.toLowerCase();
         break;
-      case "birthDate":
+      case "sent":
         communicationUpdate.birthDate = value;
         break;
-      case "photo":
+      case "definition":
         communicationUpdate.photo[0].url = value;
         break;
-      case "mrn":
+      case "identifier":
+        communicationUpdate.identifier[0].value = value;
+        break;
+      case "category":
+        communicationUpdate.identifier[0].value = value;
+        break;
+        case "payload":
         communicationUpdate.identifier[0].value = value;
         break;
       default:

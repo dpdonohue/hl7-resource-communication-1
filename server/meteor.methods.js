@@ -4,9 +4,9 @@ Meteor.methods({
   createCommunication:function(communicationObject){
     check(communicationObject, Object);
 
-    if (process.env.NODE_ENV === 'test') {
-      console.log('-----------------------------------------');
-      console.log('Creating Communication...');
+    //if (process.env.NODE_ENV === 'test') {
+      process.env.DEBUG && console.log('-----------------------------------------');
+      process.env.DEBUG && console.log('Creating Communication...');
       Communications.insert(communicationObject, function(error, result){
         if (error) {
           console.log(error);
@@ -31,10 +31,10 @@ Meteor.methods({
           }
         }
       });
-    } else {
-      console.log('This command can only be run in a test environment.');
-      console.log('Try setting NODE_ENV=test');
-    }
+    // } else {
+    //   console.log('This command can only be run in a test environment.');
+    //   console.log('Try setting NODE_ENV=test');
+    // }
   },
   initializeCommunication:function(){
     if (Communications.find().count() === 0) {
@@ -62,11 +62,9 @@ Meteor.methods({
             "display": "Hyperkalemia"
           }
         ],
-        "partOf": [
-          {
+        "partOf": {
             "display": "Serum Potassium Observation"
-          }
-        ],
+        },
         "status": "completed",
         "category": [
           {
@@ -92,11 +90,11 @@ Meteor.methods({
           }
         ],
         "subject": {
-          "reference": "Patient/example"
+          "reference": "Practitioner/cuddy"
         },
         "recipient": [
           {
-            "reference": "Practitioner/example"
+            "reference": "Practitioner/house"
           }
         ],
         "context": {
