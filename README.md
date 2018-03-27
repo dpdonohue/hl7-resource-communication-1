@@ -1,4 +1,4 @@
-##  dpdonohue:hl7-resource-communication   
+##  cllinical:hl7-resource-communication   
 
 HL7 FHIR Resource - Communication
 
