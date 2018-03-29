@@ -2,6 +2,7 @@
 
 
 import CommunicationsPage from './client/CommunicationsPage';
+import CommunicationTable from './client/CommunicationTable';
 
 var DynamicRoutes = [{
   'name': 'CommunicationPage',
@@ -20,7 +21,8 @@ export {
   SidebarElements, 
   DynamicRoutes, 
 
-  CommunicationsPage
+  CommunicationsPage,
+  CommunicationTable
 };
 
 

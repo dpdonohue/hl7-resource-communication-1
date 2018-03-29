@@ -1,13 +1,14 @@
-import { get, has, set } from 'lodash';
-
-import { insertCommunication, removeCommunicationById, updateCommunication } from '../lib/methods';
+import { get } from 'lodash';
 
 import { Bert } from 'meteor/themeteorchef:bert';
 import React from 'react';
 import { ReactMeteorData } from 'meteor/react-meteor-data';
 import ReactMixin from 'react-mixin';
-import { CardActions, CardText, Paper, TextField, RaisedButton } from 'material-ui';
+import { CardActions, CardText, Card, TextField, RaisedButton } from 'material-ui';
 import { Grid, Row, Col, Table } from 'react-bootstrap';
+
+import { Session } from 'meteor/session';
+
 
 let defaultCommunication = {
   "resourceType" : "Communication",
@@ -21,7 +22,7 @@ let defaultCommunication = {
   "photo" : [{
     url: ""
   }],
-  identifier: [{
+  "identifier": [{
     "use": "usual",
     "type": {
       "coding": [
@@ -94,7 +95,7 @@ export default class CommunicationDetail extends React.Component {
                   id='identifierInput'
                   name='identifier'
                   floatingLabelText='identifier'
-                  defaultValue={ get(this, 'data.communication.identifier[0].url') }
+                  value={ get(this, 'data.communication.identifier[0].url') }
                   onChange={ this.changeState.bind(this, 'photo')}
                   floatingLabelFixed={false}
                   fullWidth
@@ -103,12 +104,12 @@ export default class CommunicationDetail extends React.Component {
             </Row>
             <Row>
               <Col md={4}>
-                <Paper zDepth={2} style={{padding: '20px', marginBottom: '20px'}}>
+                <Card zDepth={2} style={{padding: '20px', marginBottom: '20px'}}>
                   <TextField
                     id='subjectInput'
                     name='subject'
                     floatingLabelText='subject'
-                    defaultValue={ get(this, 'data.communication.subject.display', '') }
+                    value={ get(this, 'data.communication.subject.display', '') }
                     onChange={ this.changeState.bind(this, 'name')}
                     fullWidth
                     /><br/>
@@ -116,80 +117,75 @@ export default class CommunicationDetail extends React.Component {
                     id='sentInput'
                     name='sent'
                     floatingLabelText='sent'
-                    defaultValue={ moment(get(this, 'data.communication.sent')).format('YYYY-MM-DD hh:mm:ss') }
+                    value={ moment(get(this, 'data.communication.sent')).format('YYYY-MM-DD hh:mm:ss') }
                     onChange={ this.changeState.bind(this, 'sent')}
                     fullWidth
                     /><br/>
-                </Paper>
+                </Card>
               </Col>
               <Col md={4}>
-              <Paper zDepth={2} style={{padding: '20px', marginBottom: '20px'}}>
-                <TextField
-                  id='definitionInput'
-                  name='definition'
-                  floatingLabelText='definition'
-                  value={ get(this, 'data.communication.definition[0].text') }
-                  onChange={ this.changeState.bind(this, 'definition')}
-                  fullWidth
-                  /><br/>
-                <TextField
-                  id='payloadInput'
-                  name='payload'
-                  floatingLabelText='payload'
-                  defaultValue={ get(this, 'data.communication.payload[0].contentString') }
-                  onChange={ this.changeState.bind(this, 'payload')}
-                  fullWidth
-                  /><br/>
-                </Paper>
+                <Card zDepth={2} style={{padding: '20px', marginBottom: '20px'}}>
+                  <TextField
+                    id='definitionInput'
+                    name='definition'
+                    floatingLabelText='definition'
+                    value={ get(this, 'data.communication.definition[0].text') }
+                    onChange={ this.changeState.bind(this, 'definition')}
+                    fullWidth
+                    /><br/>
+                  <TextField
+                    id='payloadInput'
+                    name='payload'
+                    floatingLabelText='payload'
+                    value={ get(this, 'data.communication.payload[0].contentString') }
+                    onChange={ this.changeState.bind(this, 'payload')}
+                    fullWidth
+                    /><br/>
+                </Card>
               
               </Col>
               <Col md={4}>
-                <Paper zDepth={2} style={{padding: '20px', marginBottom: '20px'}}>
+                <Card zDepth={2} style={{padding: '20px', marginBottom: '20px'}}>
                   <TextField
                     id='recipientInput'
                     name='recipient'
                     floatingLabelText='recipient'
                     onChange={ this.changeState.bind(this, 'recipient')}
-                    defaultValue={ get(this, 'data.communication.recipient.display', '') }
+                    value={ get(this, 'data.communication.recipient.display', '') }
                     fullWidth
                     /><br/>
                   <TextField
                     id='receivedInput'
                     name='received'
                     floatingLabelText='received'
-                    defaultValue={ moment(get(this, 'data.communication.received')).format('YYYY-MM-DD hh:mm:ss') }
+                    value={ moment(get(this, 'data.communication.received')).format('YYYY-MM-DD hh:mm:ss') }
                     onChange={ this.changeState.bind(this, 'received')}
                     fullWidth
                     /><br/>
-                </Paper>
-                { this.determineButtons(this.data.communicationId) }  
+                </Card>
+                {/* { this.determineButtons(this.data.communicationId) }   */}
               </Col>
             </Row>
           </Grid>
 
-
-
         </CardText>
-        <CardActions>
-          
-        </CardActions>
       </div>
     );
   }
-  determineButtons(communicationId){
-    if (communicationId) {
-      return (
-        <div>
-          <RaisedButton id='saveCommunicationButton' className='saveCommunicationButton' label="Save" primary={true} onClick={this.handleSaveButton.bind(this)} style={{marginRight: '20px'}} />
-          <RaisedButton label="Delete" onClick={this.handleDeleteButton.bind(this)} />
-        </div>
-      );
-    } else {
-      return(
-          <RaisedButton id='saveCommunicationButton'  className='saveCommunicationButton' label="Save" primary={true} onClick={this.handleSaveButton.bind(this)} />
-      );
-    }
-  }
+  // determineButtons(communicationId){
+  //   if (communicationId) {
+  //     return (
+  //       <div>
+  //         <RaisedButton id='saveCommunicationButton' className='saveCommunicationButton' label="Save" primary={true} onClick={this.handleSaveButton.bind(this)} style={{marginRight: '20px'}} />
+  //         <RaisedButton label="Delete" onClick={this.handleDeleteButton.bind(this)} />
+  //       </div>
+  //     );
+  //   } else {
+  //     return(
+  //         <RaisedButton id='saveCommunicationButton'  className='saveCommunicationButton' label="Save" primary={true} onClick={this.handleSaveButton.bind(this)} />
+  //     );
+  //   }
+  // }
 
   changeState(field, event, value){
     let communicationUpdate;
@@ -316,3 +312,4 @@ export default class CommunicationDetail extends React.Component {
 
 
 ReactMixin(CommunicationDetail.prototype, ReactMeteorData);
+

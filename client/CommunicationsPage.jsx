@@ -84,7 +84,7 @@ export class CommunicationsPage extends React.Component {
                    <CommunicationTable showBarcodes={true} />
                  </Tab>
                  <Tab className="communicationDetailTab" label='Detail' onActive={this.handleActive} style={this.data.style.tab} value={2}>
-                   <CommunicationDetail id='communicationDetails' currentCommunication={this.data.currentCommunication} />
+                   {/* <CommunicationDetail id='communicationDetails' currentCommunication={this.data.currentCommunication} /> */}
                  </Tab>
              </Tabs>
 
