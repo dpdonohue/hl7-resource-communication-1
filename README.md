@@ -13,7 +13,7 @@ The resource in this package implements the `FHIR 1.6.0 - STU3 Ballot` version o
 #### Installation  
 
 ```bash
-meteor add dpdonohue:hl7-resource-communication
+meteor add clinical:hl7-resource-communication
 ```
 
 You may also wish to install the `autopublish` package, which will set up a default publication/subscription of the Communications collection for logged in users.  You will need to remove the package before going into production, however.
